@@ -16,11 +16,13 @@ public class HelloClassLoader extends ClassLoader {
     private byte[] decode(String filePath) {
         File file = new File(filePath);
         try (FileInputStream inputStream = new FileInputStream(file)) {
-            byte[] bytes = inputStream.readAllBytes();
-            for (int i = 0; i < bytes.length; i++) {
-                bytes[i] = (byte) (255 - bytes[i]);
+            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+            int byteValue;
+            while ((byteValue = inputStream.read()) != -1) {
+                outputStream.write(255 - byteValue);
             }
-            return bytes;
+
+            return outputStream.toByteArray();
         } catch (Exception e) {
             e.printStackTrace();
         }
