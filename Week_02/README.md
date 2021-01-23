@@ -4,7 +4,7 @@
 ![3秒吞吐量](./3秒吞吐量.png)
 
 1. 1秒吞吐量测试观察
-	1. -XX:-UseAdaptiveSizePolicy参数未见什么影响
+	1. -XX:-UseAdaptiveSizePolicy参数未见什么影响, 因为同时指定了Xmx和Xms, 自适应没有施展的空间.
 	2. Xms设置和Xmx一样大, 可以显著减少young GC次数, 因为少了逐渐扩容的过程
 	3. 小内存时(256M), 只有CMS没有OOM
 	4. 大内存时(>8G), G1有更好的吞吐量
