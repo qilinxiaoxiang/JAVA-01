@@ -2,9 +2,9 @@
 ### 本次作业实现了以下功能
 1. [必做]整合你上次作业的httpclient/okhttp
 2. [必做]实现过滤器
-3. [选座]实现路由器
+3. [选做]实现路由器
 
-实际上秦老师已经在nio2/nio2里面把功能都做完了, 我做了工作
+实际上秦老师已经在02nio/nio02里面把功能都做完了, 我做了如下工作
 
 1. bootstrap的所有`.option`改成了`.childOption`
 2. `childOption(ChannelOption.SO_KEEPALIVE,true)`存在但是无效, 改成了`.childOption(NioChannelOption.SO_KEEPALIVE, true)`
