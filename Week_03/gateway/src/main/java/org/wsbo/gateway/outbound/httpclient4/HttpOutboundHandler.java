@@ -8,6 +8,8 @@ import io.netty.handler.codec.http.DefaultFullHttpResponse;
 import io.netty.handler.codec.http.FullHttpRequest;
 import io.netty.handler.codec.http.FullHttpResponse;
 import io.netty.handler.codec.http.HttpUtil;
+import org.apache.http.Header;
+import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.util.EntityUtils;
 import org.wsbo.gateway.client.MyClient;
@@ -18,6 +20,8 @@ import org.wsbo.gateway.router.HttpRouter;
 import org.wsbo.gateway.router.RandomHttpRouter;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.List;
 import java.util.concurrent.*;
 
@@ -52,12 +56,62 @@ public class HttpOutboundHandler {
             String url = httpRouter.route(this.backendUrls) + fullRequest.uri();
             HttpResponse originalResponse = httpclient.visit(url);
 
+
+            HttpEntity entity = originalResponse.getEntity();
+            originalResponse.setEntity(new HttpEntity() {
+                @Override
+                public boolean isRepeatable() {
+                    return false;
+                }
+
+                @Override
+                public boolean isChunked() {
+                    return false;
+                }
+
+                @Override
+                public long getContentLength() {
+                    return entity.getContentLength();
+                }
+
+                @Override
+                public Header getContentType() {
+                    return null;
+                }
+
+                @Override
+                public Header getContentEncoding() {
+                    return null;
+                }
+
+                @Override
+                public InputStream getContent() throws IOException, UnsupportedOperationException {
+                    // 这里加内容
+                    return entity.getContent();
+                }
+
+                @Override
+                public void writeTo(OutputStream outputStream) throws IOException {
+
+                }
+
+                @Override
+                public boolean isStreaming() {
+                    return false;
+                }
+
+                @Override
+                public void consumeContent() throws IOException {
+
+                }
+            });
             byte[] body = new byte[0];
             try {
-                body = EntityUtils.toByteArray(originalResponse.getEntity());
+                body = EntityUtils.toByteArray(entity);
             } catch (IOException e) {
                 e.printStackTrace();
             }
+            entity
             FullHttpResponse response = new DefaultFullHttpResponse(HTTP_1_1, OK, Unpooled.wrappedBuffer(body));
             response.headers().set("Content-Type", "application/json");
             response.headers().setInt("Content-Length", Integer.parseInt(originalResponse.getFirstHeader("Content-Length").getValue()));
