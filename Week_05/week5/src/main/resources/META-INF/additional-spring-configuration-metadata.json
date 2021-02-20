@@ -1,0 +1,10 @@
+{
+  "properties": [
+    {
+      "name": "student.name",
+      "type": "java.lang.String",
+      "description": "name of student",
+      "defaultValue": "项峥"
+    }
+  ]
+}

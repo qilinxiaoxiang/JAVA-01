@@ -1,0 +1,1 @@
+org.springframework.boot.autoconfiguration.EnableAutoConfiguration=com.wsbo.week5.starter.AutoConfiguration
