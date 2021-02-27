@@ -11,5 +11,5 @@
 ## 7. 对 MySQL 配置不同的数据库连接池（DBCP、C3P0、Druid、Hikari），测试增删改查100万次，对比性能，生成报告。
 1. 自己并没有尝试去做, 查了点文章. 比如https://blog.csdn.net/qq_31125793/article/details/51241943.
 2. DBCP和C3P0都很老了, 只看Druid(阿里开源)和Hikari(Spring Boot2.x默认连接池).
-    1. 但从性能角度讲, Druid差一些, 但是Druid提供了强大的监控和扩展能力. 如果需要这些能力的话, Druid是更好的选择.
+    1. 单从性能角度讲, Druid差一些, 但是Druid提供了强大的监控和扩展能力. 如果需要这些能力的话, Druid是更好的选择.
     2. 如果只需要性能, 那Hikari是最优的选择
