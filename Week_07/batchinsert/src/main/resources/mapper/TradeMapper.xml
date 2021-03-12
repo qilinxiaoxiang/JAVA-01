@@ -3,8 +3,8 @@
 <mapper namespace="com.wsbo.batchinsert.dal.mapper.TradeMapper">
   <resultMap id="BaseResultMap" type="com.wsbo.batchinsert.dal.model.Trade">
     <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="trade_id" jdbcType="VARCHAR" property="tradeId" />
-    <result column="uid" jdbcType="VARCHAR" property="uid" />
+    <result column="trade_id" jdbcType="BIGINT" property="tradeId" />
+    <result column="uid" jdbcType="BIGINT" property="uid" />
     <result column="status" jdbcType="VARCHAR" property="status" />
     <result column="pay_time" jdbcType="TIMESTAMP" property="payTime" />
     <result column="total_amount" jdbcType="DECIMAL" property="totalAmount" />
@@ -136,18 +136,10 @@
       status, pay_time, total_amount, 
       received_amount, create_time, modify_time, 
       goods_info, fail_msg)
-    values (#{id,jdbcType=INTEGER}, #{tradeId,jdbcType=VARCHAR}, #{uid,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=INTEGER}, #{tradeId,jdbcType=BIGINT}, #{uid,jdbcType=BIGINT}, 
       #{status,jdbcType=VARCHAR}, #{payTime,jdbcType=TIMESTAMP}, #{totalAmount,jdbcType=DECIMAL}, 
       #{receivedAmount,jdbcType=DECIMAL}, #{createTime,jdbcType=TIMESTAMP}, #{modifyTime,jdbcType=TIMESTAMP}, 
       #{goodsInfo,jdbcType=LONGVARCHAR}, #{failMsg,jdbcType=LONGVARCHAR})
-  </insert>
-  <insert id="insertBatch" parameterType="java.util.List">
-    INSERT INTO trade(trade_id, uid, pay_time, total_amount, received_amount, goods_info) VALUES
-    <foreach collection="list" item="item" index="index" separator=",">
-      (#{item.tradeId,jdbcType=VARCHAR}, #{item.uid,jdbcType=VARCHAR},
-      #{item.payTime,jdbcType=TIMESTAMP}, #{item.totalAmount,jdbcType=DECIMAL},
-      #{item.receivedAmount,jdbcType=DECIMAL},
-      #{item.goodsInfo,jdbcType=LONGVARCHAR})</foreach>
   </insert>
   <insert id="insertSelective" parameterType="com.wsbo.batchinsert.dal.model.Trade">
     insert into trade
@@ -191,10 +183,10 @@
         #{id,jdbcType=INTEGER},
       </if>
       <if test="tradeId != null">
-        #{tradeId,jdbcType=VARCHAR},
+        #{tradeId,jdbcType=BIGINT},
       </if>
       <if test="uid != null">
-        #{uid,jdbcType=VARCHAR},
+        #{uid,jdbcType=BIGINT},
       </if>
       <if test="status != null">
         #{status,jdbcType=VARCHAR},
@@ -235,10 +227,10 @@
         id = #{record.id,jdbcType=INTEGER},
       </if>
       <if test="record.tradeId != null">
-        trade_id = #{record.tradeId,jdbcType=VARCHAR},
+        trade_id = #{record.tradeId,jdbcType=BIGINT},
       </if>
       <if test="record.uid != null">
-        uid = #{record.uid,jdbcType=VARCHAR},
+        uid = #{record.uid,jdbcType=BIGINT},
       </if>
       <if test="record.status != null">
         status = #{record.status,jdbcType=VARCHAR},
@@ -272,8 +264,8 @@
   <update id="updateByExampleWithBLOBs" parameterType="map">
     update trade
     set id = #{record.id,jdbcType=INTEGER},
-      trade_id = #{record.tradeId,jdbcType=VARCHAR},
-      uid = #{record.uid,jdbcType=VARCHAR},
+      trade_id = #{record.tradeId,jdbcType=BIGINT},
+      uid = #{record.uid,jdbcType=BIGINT},
       status = #{record.status,jdbcType=VARCHAR},
       pay_time = #{record.payTime,jdbcType=TIMESTAMP},
       total_amount = #{record.totalAmount,jdbcType=DECIMAL},
@@ -289,8 +281,8 @@
   <update id="updateByExample" parameterType="map">
     update trade
     set id = #{record.id,jdbcType=INTEGER},
-      trade_id = #{record.tradeId,jdbcType=VARCHAR},
-      uid = #{record.uid,jdbcType=VARCHAR},
+      trade_id = #{record.tradeId,jdbcType=BIGINT},
+      uid = #{record.uid,jdbcType=BIGINT},
       status = #{record.status,jdbcType=VARCHAR},
       pay_time = #{record.payTime,jdbcType=TIMESTAMP},
       total_amount = #{record.totalAmount,jdbcType=DECIMAL},
@@ -305,10 +297,10 @@
     update trade
     <set>
       <if test="tradeId != null">
-        trade_id = #{tradeId,jdbcType=VARCHAR},
+        trade_id = #{tradeId,jdbcType=BIGINT},
       </if>
       <if test="uid != null">
-        uid = #{uid,jdbcType=VARCHAR},
+        uid = #{uid,jdbcType=BIGINT},
       </if>
       <if test="status != null">
         status = #{status,jdbcType=VARCHAR},
@@ -339,8 +331,8 @@
   </update>
   <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.wsbo.batchinsert.dal.model.Trade">
     update trade
-    set trade_id = #{tradeId,jdbcType=VARCHAR},
-      uid = #{uid,jdbcType=VARCHAR},
+    set trade_id = #{tradeId,jdbcType=BIGINT},
+      uid = #{uid,jdbcType=BIGINT},
       status = #{status,jdbcType=VARCHAR},
       pay_time = #{payTime,jdbcType=TIMESTAMP},
       total_amount = #{totalAmount,jdbcType=DECIMAL},
@@ -353,8 +345,8 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.wsbo.batchinsert.dal.model.Trade">
     update trade
-    set trade_id = #{tradeId,jdbcType=VARCHAR},
-      uid = #{uid,jdbcType=VARCHAR},
+    set trade_id = #{tradeId,jdbcType=BIGINT},
+      uid = #{uid,jdbcType=BIGINT},
       status = #{status,jdbcType=VARCHAR},
       pay_time = #{payTime,jdbcType=TIMESTAMP},
       total_amount = #{totalAmount,jdbcType=DECIMAL},

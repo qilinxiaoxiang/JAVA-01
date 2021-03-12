@@ -1,17 +1,17 @@
 spring:
   shardingsphere:
-    # Êı¾İÔ´Ïà¹ØÅäÖÃ
+    # æ•°æ®æºç›¸å…³é…ç½®
     datasource:
-      # Êı¾İÔ´Ãû³Æ
+      # æ•°æ®æºåç§°
       names: master,s1,s2
-      # MySQL masterÊı¾İÔ´
+      # MySQL masteræ•°æ®æº
       master:
-        # Êı¾İ¿âÁ¬½Ó³Ø
+        # æ•°æ®åº“è¿æ¥æ± 
         type: com.zaxxer.hikari.HikariDataSource
         jdbc-url: jdbc:mysql://localhost:3306/trade1
         username: root
         password: 123456
-      # Á½¸öslaveÊı¾İÔ´
+      # ä¸¤ä¸ªslaveæ•°æ®æº
       s1:
         type: com.zaxxer.hikari.HikariDataSource
         jdbc-url: jdbc:mysql://localhost:3306/trade2
@@ -29,9 +29,9 @@ spring:
       slave-data-source-names:
         - s1
         - s2
-    # ÆäËûÊôĞÔ
+    # å…¶ä»–å±æ€§
     props:
-      # ¿ªÆôSQLÏÔÊ¾
+      # å¼€å¯SQLæ˜¾ç¤º
       sql.show: false
 mybatis:
   mapper-locations: classpath*:/mapper/*.xml

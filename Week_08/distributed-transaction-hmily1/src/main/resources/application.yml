@@ -1,0 +1,24 @@
+server:
+  port: 8000
+spring:
+  application:
+    name: hmily1 # 项目名称尽量用小写
+  datasource:
+    url: jdbc:mysql://localhost:3306/trade0
+    username: root
+    password: 123456
+eureka:
+  # 配置开启健康检查
+  client:
+    healthcheck:
+      enabled: true
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/ # 指定注册中心的地址
+  instance:
+    # IP地址优先
+    preferIpAddress: true
+    # 按需配置续约更新时间和到期时间
+    lease-expiration-duration-in-seconds: 30
+    lease-renewal-interval-in-seconds: 10
+mybatis:
+  mapper-locations: classpath*:/mapper/*.xml

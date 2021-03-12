@@ -38,6 +38,4 @@ public interface TradeMapper {
     int updateByPrimaryKeyWithBLOBs(Trade record);
 
     int updateByPrimaryKey(Trade record);
-
-    void insertBatch(List<Trade> list);
 }
