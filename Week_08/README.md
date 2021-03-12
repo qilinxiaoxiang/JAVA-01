@@ -18,7 +18,7 @@
 - 然后转向hmily. 首先想到试试spring cloud alibaba搭建微服务. 结果一个nacos搞半天才起来. 然后发现nacos-client要求spring boot版本低于2.3.0, 这不行. 转向标准的spring cloud体系.
 - hmily的TCC模式和此前接触的XA不太一样, 花了点时间理解和摆弄.
     1. distributed-transaction-hmily1作为单纯的服务提供方, 其实并不需要引入hmily, 只要做好两件事
-        1. 幂等
+        1. 幂等(代码里偷懒没有做, 导致有重复插入)
         2. 本地事务回滚.
     2. distributed-transaction-hmily2作为服务的调用方, 是需要引入hmily的.
         1. 入口方法、confirm方法和cancel方法需要有相同的参数, 否则会报找不到方法.
