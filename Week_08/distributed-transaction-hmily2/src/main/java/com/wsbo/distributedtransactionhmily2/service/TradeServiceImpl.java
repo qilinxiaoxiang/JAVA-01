@@ -37,6 +37,9 @@ public class TradeServiceImpl implements TradeService {
                 .uid((long) random.nextInt(16*1000))
                 .build());
         hmily1Client.work(tradeId);
+        if (random.nextBoolean()) {
+            throw new RuntimeException("hmily2 error");
+        }
     }
 
     @Override
