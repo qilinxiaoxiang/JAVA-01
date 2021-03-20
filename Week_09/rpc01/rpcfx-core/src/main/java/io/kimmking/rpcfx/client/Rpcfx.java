@@ -4,6 +4,9 @@ package io.kimmking.rpcfx.client;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.parser.ParserConfig;
 import io.kimmking.rpcfx.api.*;
+import io.kimmking.rpcfx.exception.BizException;
+import io.kimmking.rpcfx.exception.ErrorCode;
+import lombok.extern.slf4j.Slf4j;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -20,6 +23,7 @@ import java.lang.reflect.Proxy;
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 public final class Rpcfx {
 
     static {
@@ -81,7 +85,16 @@ public final class Rpcfx {
                 }
             }
 
-            RpcfxResponse response = post(request, url);
+            RpcfxResponse response = null;
+            try {
+                response = post(request, url);
+            } catch (IOException e) {
+                log.warn("连接失败:{},{}", this.serviceClass.getName(), method.getName(), e);
+                throw new BizException(ErrorCode.CONNECT_FAIL);
+            } catch (Exception e) {
+                log.error("系统异常:{},{}", this.serviceClass.getName(), method.getName(), e);
+                throw new BizException(ErrorCode.SYSTEM_ERROR);
+            }
 
             // 加filter地方之三
             // Student.setTeacher("cuijing");
