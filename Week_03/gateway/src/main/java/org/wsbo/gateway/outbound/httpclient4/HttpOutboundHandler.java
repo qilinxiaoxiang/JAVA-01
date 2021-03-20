@@ -111,7 +111,6 @@ public class HttpOutboundHandler {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            entity
             FullHttpResponse response = new DefaultFullHttpResponse(HTTP_1_1, OK, Unpooled.wrappedBuffer(body));
             response.headers().set("Content-Type", "application/json");
             response.headers().setInt("Content-Length", Integer.parseInt(originalResponse.getFirstHeader("Content-Length").getValue()));

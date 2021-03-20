@@ -73,7 +73,7 @@ public class RpcfxServerApplication {
 	RpcfxInvoker invoker;
 
 	@PostMapping("/")
-	public RpcfxResponse invoke(@RequestBody RpcfxRequest request) {
+	public RpcfxResponse invoke(@RequestBody RpcfxRequest request) throws ClassNotFoundException {
 		return invoker.invoke(request);
 	}
 

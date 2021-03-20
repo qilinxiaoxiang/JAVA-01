@@ -18,12 +18,14 @@ public class RpcfxInvoker {
         this.resolver = resolver;
     }
 
-    public RpcfxResponse invoke(RpcfxRequest request) {
+    public RpcfxResponse invoke(RpcfxRequest request) throws ClassNotFoundException {
         RpcfxResponse response = new RpcfxResponse();
         String serviceClass = request.getServiceClass();
 
         // 作业1：改成泛型和反射
-        Object service = resolver.resolve(serviceClass);//this.applicationContext.getBean(serviceClass);
+//        Object service = resolver.resolve(serviceClass);//this.applicationContext.getBean(serviceClass);
+        Class<?> clazz = Class.forName(serviceClass);
+        Object service = resolver.resolve(clazz);
 
         try {
             Method method = resolveMethodFromClass(service.getClass(), request.getMethod());
