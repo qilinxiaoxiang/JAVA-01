@@ -9,8 +9,10 @@
 最开始也没太看懂, 动态代理本身就是一种AOP, 啥叫改成AOP. 后来看了秦老师在知识星球的回复说字节码, 所以用cglib玩了一下.
 
 ### 1.3 尝试使用Netty+HTTP作为client端传输方式
+
 1. 连接复用可以用连接池, PoolingHttpClientConnectionManager, 这次没玩.
 2. 这次先用了HttpClient, 没用Netty. 后续补上.
 
 ## 2. 结合dubbo+hmily，实现一个TCC外汇交易处理，代码提交到github
-- 上周玩过spring cloud+hmily了, 这周dubbo+hmily打通大同小异, 所以将hmily项目中的demo直接copy过来了, 没有玩
+
+- 上周玩过spring cloud+hmily了, 这周换成dubbo大同小异, 所以将hmily项目中的demo直接copy过来了, 没有玩
