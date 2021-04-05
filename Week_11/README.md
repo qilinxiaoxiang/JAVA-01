@@ -1,4 +1,6 @@
 # 作业
+最初周五就想做的, 结果最近以撒的结合更新了新的DLC, 花了几天玩游戏, 拖到现在才完成...
+
 ## 4.（必做）基于 Redis 封装分布式数据操作：
 ### 4.1 在 Java 中实现一个简单的分布式锁
 - 使用了Redisson的RLock, 见 [DistributedLock.java](redis/src/main/java/com/wsbo/redis/lock/DistributedLock.java)
