@@ -79,7 +79,11 @@ OK
 ```
 
 ## 2. 搭建 ActiveMQ 服务，基于 JMS，写代码分别实现对于 queue 和 topic 的消息生产和消费，代码提交到 github。
-下午继续
+- 详见activemq-test项目.
+- 在spring boot中使用activemq相当简单, 参照https://www.devglan.com/spring-boot/spring-boot-jms-activemq-example
+    - Listener加上@JmsListener注解, destination填入queue或者topic的名称
+    - Producer据说只要加上@SendTo注解, 不过没玩起来, 用的JmsTemplate, 也是ok的.
+    - 默认使用queue, 在配置文件中加上`spring.jms.pub-sub-domain=true`配置, 则使用topic. 不知道怎么混合使用, 可能这样的场景不主流吧.
 
 # 选做作业
 ## 1. 练习 redission 的各种功能。
