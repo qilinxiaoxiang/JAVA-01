@@ -45,12 +45,41 @@ root@DESKTOP-OU5CL4N:/sentinel# docker logs b98359f937aa
 5. 查看sentinel节点上的info, 发现显示sentinels=1, 可见哨兵间无法相互通信, 查了一下 在主节点上使用`subscribe __sentinel__:hello`
 可以查看哨兵节点之间的通信, 一开始执行的时候报没有权限, 我把主节点配置文件里面的`user default on nopass ~* +@all`删掉, 重启了主节点 就能执行了, 然后sentinel之间也能相互感知了, 不知道是重启导致的还是修改配置导致的
 6. 之后停掉主库, 重新选主是ok了 但是**哨兵节点配置文件没有被写进信息这个问题, 还不知道啥原因导致的以及怎么解决**
+7. 猜测是docker mount文件, 导致文件不可写. 改成直接新建配置文件, 尝试启动sentinel
+    - `docker run -p 6381:6379 --name sentinel -v /data/redis6381:/data -d redis sh -c "mkdir /etc/redis && echo 'sentinel monitor mymaster 172.17.0.3 6379 2' > /etc/redis/redis.conf && echo 'sentinel down-after-milliseconds mymaster 10000' >> /etc/redis/redis.conf && echo 'sentinel failover-timeout mymaster 180000' >> /etc/redis/redis.conf && echo 'sentinel parallel-syncs mymaster 1' >> /etc/redis/redis.conf && redis-sentinel /etc/redis/redis.conf --appendonly yes"`
+    - `docker run -p 6383:6379 --name sentinel1 -v /data/redis6383:/data -d redis sh -c "mkdir /etc/redis && echo 'sentinel monitor mymaster 172.17.0.3 6379 2' > /etc/redis/redis.conf && echo 'sentinel down-after-milliseconds mymaster 10000' >> /etc/redis/redis.conf && echo 'sentinel failover-timeout mymaster 180000' >> /etc/redis/redis.conf && echo 'sentinel parallel-syncs mymaster 1' >> /etc/redis/redis.conf && redis-sentinel /etc/redis/redis.conf --appendonly yes"`
+    - `docker run -p 6384:6379 --name sentinel2 -v /data/redis6384:/data -d redis sh -c "mkdir /etc/redis && echo 'sentinel monitor mymaster 172.17.0.3 6379 2' > /etc/redis/redis.conf && echo 'sentinel down-after-milliseconds mymaster 10000' >> /etc/redis/redis.conf && echo 'sentinel failover-timeout mymaster 180000' >> /etc/redis/redis.conf && echo 'sentinel parallel-syncs mymaster 1' >> /etc/redis/redis.conf && redis-sentinel /etc/redis/redis.conf --appendonly yes"`
+8. 问题解决
 
 ### 1.3 cluser集群
-晚了, 明天继续
+1. 在配置文件里面加上
+```
+cluster-enabled yes
+cluster-config-file nodes.conf
+cluster-node-timeout 5000
+appendonly yes
+```
+2. 起6个redis, 起docker用`--net=host`
+    - `docker run --net=host --name redis6380 -v /root/redis6380.conf:/etc/redis/redis.conf -v /data/redis6380:/data -d redis redis-server /etc/redis/redis.conf`
+    - `docker run --net=host --name redis6379 -v /root/redis6379.conf:/etc/redis/redis.conf -v /data/redis6379:/data -d redis redis-server /etc/redis/redis.conf`
+    - `docker run --net=host --name redis6381 -v /root/redis6381.conf:/etc/redis/redis.conf -v /data/redis6381:/data -d redis redis-server /etc/redis/redis.conf`
+    - `docker run --net=host --name redis6382 -v /root/redis6382.conf:/etc/redis/redis.conf -v /data/redis6382:/data -d redis redis-server /etc/redis/redis.conf`
+    - `docker run --net=host --name redis6383 -v /root/redis6383.conf:/etc/redis/redis.conf -v /data/redis6383:/data -d redis redis-server /etc/redis/redis.conf`
+    - `docker run --net=host --name redis6384 -v /root/redis6384.conf:/etc/redis/redis.conf -v /data/redis6384:/data -d redis redis-server /etc/redis/redis.conf`
+3. 搭建集群
+    - `redis-cli --cluster create 127.0.0.1:6379 127.0.0.1:6380 127.0.0.1:6381 127.0.0.1:6382 127.0.0.1:6383 127.0.0.1:6384  --cluster-replicas 1`
+4. 测试完成
+```
+root@DESKTOP-OU5CL4N:/data# redis-cli -c
+127.0.0.1:6379>
+127.0.0.1:6379>
+127.0.0.1:6379> set name xiangzheng
+-> Redirected to slot [5798] located at 127.0.0.1:6380
+OK
+```
 
 ## 2. 搭建 ActiveMQ 服务，基于 JMS，写代码分别实现对于 queue 和 topic 的消息生产和消费，代码提交到 github。
-晚了, 明天继续
+下午继续
 
 # 选做作业
 ## 1. 练习 redission 的各种功能。
