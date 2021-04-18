@@ -13,4 +13,7 @@
 5. 后来看到kafka有.bat文件, 所以干脆运行在windows上, 结果一点问题都没有.
 
 ## 1.2（必做）思考和设计自定义 MQ 第二个版本或第三个版本，写代码实现其中至少一个功能点，把设计思路和实现代码，提交到 GitHub。
-明天继续
+1. 去掉内存Queue，设计自定义Queue，实现消息确认和消费offset.
+    1. 详见broker项目
+2. 拆分broker和client(包括producer和consumer)
+    1. 详见producer和consumer项目中MyClient.class中的main方法示例.
